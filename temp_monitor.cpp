@@ -28,7 +28,7 @@ vector<shared_ptr<Sensor>> System::getSensorsConfig(){return _sensorsConfig; }
 
 
 void executeCmd(string cmd){
-
+    system(cmd.c_str());
 }
 
 void monitor() {
@@ -42,12 +42,11 @@ void monitor() {
                 sensorFile.open(sensor->getSensor(), ios::in);
                 if (!sensorFile.is_open())
                 {
-                    cout << "Opened" << endl;
                     throw runtime_error("Could not open the config.conf file!");
                 } else {
                     getline(sensorFile, temp);
                     stringstream ss;
-                    ss << fixed << setprecision(2) << stof(temp);
+                    ss << fixed << setprecision(2) << stof(temp)/1000;
                     float currentTemp = stof(ss.str());
                     if (currentTemp > sensor->getHighTempThresh())
                     {
