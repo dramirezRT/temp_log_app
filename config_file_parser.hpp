@@ -17,7 +17,7 @@ static shared_ptr<System> parse_config_file () {
     int loggingPeriod;
     try
     {
-        configFile.open("./config_imx6.conf", ios::in);
+        configFile.open("./config.conf", ios::in);
         if (!configFile.is_open())
         {
             throw runtime_error("Could not open the config.conf file!");
