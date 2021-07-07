@@ -114,19 +114,26 @@ shared_ptr<System> ConfigFileHandler::parse_config_file () {
         loggingPeriod > 0 ? loggingPeriod : 5
     );
 
-    cout << "\nValues updated from the configuration file!" << endl;
+    cout << "\nSummary from the config.conf file!" << endl;
 
+    int sensorId = 0;
     for (shared_ptr<Sensor> sensor : result->getSensorsConfig())
     {
-        cout << "Sensor: " << sensor->getSensor() << 
+        cout << "Sensor" << sensorId << ": " << sensor->getSensor() << 
         " \n\tHighTempThresh: " << sensor->getHighTempThresh();
-        for(string cmd : sensor->getHighTempThreshCmd())
-            cout << "\n\t\t" << cmd;
-        
+        int cmdId = 0;
+        for(string cmd : sensor->getHighTempThreshCmd()){
+            cout << "\n\t\t" << cmdId << ")\t" << cmd;
+            cmdId++;
+        }
         cout << "\n\tLowTempThresh: " << sensor->getLowTempThresh();
-        for(string cmd : sensor->getLowTempThreshCmd())
-            cout << "\n\t\t" << cmd;
+        cmdId = 0;
+        for(string cmd : sensor->getLowTempThreshCmd()){
+            cout << "\n\t\t" << cmdId << ")\t" << cmd;
+            cmdId++;
+        }
         cout << endl;
+        sensorId++;
     }
     
     cout << "loggingPeriod: " << result->getLoggingPeriod() << endl << endl;

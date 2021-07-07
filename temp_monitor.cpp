@@ -49,18 +49,18 @@ void monitor() {
                     float currentTemp = stof(ss.str());
                     if (currentTemp > sensor->getHighTempThresh())
                     {
-                        cerr << "High temperature alert for sensor: " << sensor->getSensor() << " is: " << currentTemp << "C" << endl;
+                        cerr << "High temperature alert for sensor: " << sensor->getSensor() << " is: " << currentTemp << "°C" << endl;
                         for(string cmd : sensor->getHighTempThreshCmd()){
                             executeCmd(cmd);
                         }
                     } else if (currentTemp < sensor->getLowTempThresh())
                     {
-                        cerr << "Low temperature alert for sensor: " << sensor->getSensor() << " is: " << currentTemp << "C" << endl;
+                        cerr << "Low temperature alert for sensor: " << sensor->getSensor() << " is: " << currentTemp << "°C" << endl;
                         for(string cmd : sensor->getLowTempThreshCmd()){
                             executeCmd(cmd);
                         }
                     }
-                    cout << "Current temperature for sensor: " << sensor->getSensor() << " is: " << currentTemp << "C" << endl;
+                    cout << "Current temperature for sensor: " << sensor->getSensor() << " is: " << currentTemp << "°C" << endl;
                     
                 }
                 sensorFile.close();
