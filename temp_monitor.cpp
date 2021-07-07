@@ -3,7 +3,7 @@
 #include <sstream>
 #include <iomanip>
 
-#include "config_file_parser.hpp"
+#include "config_file_handler.h"
 #include "temp_monitor.h"
 
 using namespace std;
@@ -26,7 +26,6 @@ int System::getLoggingPeriod(){ return _loggingPeriod; }
 vector<shared_ptr<Sensor>> System::getSensorsConfig(){return _sensorsConfig; }
 
 
-
 void executeCmd(string cmd){
     system(cmd.c_str());
 }
@@ -42,7 +41,7 @@ void monitor() {
                 sensorFile.open(sensor->getSensor(), ios::in);
                 if (!sensorFile.is_open())
                 {
-                    throw runtime_error("Could not open the config.conf file!");
+                    throw runtime_error("Could not open the sensor file!");
                 } else {
                     getline(sensorFile, temp);
                     stringstream ss;
@@ -78,7 +77,7 @@ void monitor() {
 }
 
 int main (int argc, char* argv[]) {
-    mySystem = CONFIG_FILE_PARSER::parse_config_file();
+    mySystem = ConfigFileHandler::parse_config_file();
     monitor();
     return 0;
 }

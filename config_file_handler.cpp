@@ -1,17 +1,6 @@
-#ifndef CONFIG_FILE_PARSER
-#define CONFIG_FILE_PARSER
+#include "config_file_handler.h"
 
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <stdexcept>
-#include <memory>
-
-#include "temp_monitor.h"
-
-using namespace std;
-
-static shared_ptr<System> parse_config_file () {
+shared_ptr<System> ConfigFileHandler::parse_config_file () {
     ifstream configFile;
     vector<shared_ptr<Sensor>> sensors;
     int loggingPeriod;
@@ -143,6 +132,3 @@ static shared_ptr<System> parse_config_file () {
     cout << "loggingPeriod: " << result->getLoggingPeriod() << endl << endl;
     return result;
 }
-
-
-#endif
