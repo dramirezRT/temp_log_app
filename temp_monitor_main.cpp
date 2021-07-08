@@ -8,8 +8,8 @@ using namespace std;
 int main (int argc, char* argv[]) {
     ConfigFileHandler cfh;
 
-    TempMonitor tm;
     TempMonitor::mySystem = cfh.parse_config_file();
+    TempMonitor tm;
     tm.monitor();
     return 0;
 }
