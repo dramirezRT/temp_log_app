@@ -17,7 +17,7 @@ void Sensor::setHighTempThresh(int threshold){ _highTempThresh = threshold; }
 void Sensor::setLowTempThresh(int threshold) { _lowTempThresh = threshold; }
 
 int System::getLoggingPeriod(){ return _loggingPeriod; }
-vector<shared_ptr<Sensor>> System::getSensorsConfig(){return _sensorsConfig; }
+vector<shared_ptr<Sensor>> System::getSensorsConfig(){ return _sensorsConfig; }
 
 
 void TempMonitor::executeCmd(string cmd){
