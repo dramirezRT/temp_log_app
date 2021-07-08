@@ -76,9 +76,10 @@ void monitor() {
     
 }
 
-int main (int argc, char* argv[]) {
-    mySystem = ConfigFileHandler::parse_config_file();
-    monitor();
-    return 0;
-}
+// int main (int argc, char* argv[]) {
+//     ConfigFileHandler cfh;
+//     mySystem = cfh.parse_config_file();
+//     monitor();
+//     return 0;
+// }
 

@@ -1,0 +1,14 @@
+[Unit]
+Description=Temperature monitoring program and measure automation on temperature extremes
+After=network.target
+Documentation="https://github.com/dramirezRT/temp_log_app.git"
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/temp-monitor
+WorkingDirectory=/etc/temp-monitor/
+Restart=always
+
+
+[Install]
+WantedBy=multi-user.target

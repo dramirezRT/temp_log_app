@@ -6,7 +6,7 @@ shared_ptr<System> ConfigFileHandler::parse_config_file () {
     int loggingPeriod;
     try
     {
-        configFile.open("./config.conf", ios::in);
+        configFile.open(_filename, ios::in);
         if (!configFile.is_open())
         {
             throw runtime_error("Could not open the config.conf file!");
@@ -113,11 +113,133 @@ shared_ptr<System> ConfigFileHandler::parse_config_file () {
         sensors,
         loggingPeriod > 0 ? loggingPeriod : 5
     );
+    
+    return result;
+}
 
+void ConfigFileHandler::edit_threshold_high(int sensorId, int newThreshold){
+    edit_temp_threshold(sensorId, newThreshold, "H");
+}
+
+void ConfigFileHandler::edit_threshold_low(int sensorId, int newThreshold){
+    edit_temp_threshold(sensorId, newThreshold, "L");
+}
+
+void ConfigFileHandler::add_script_high_temp(int sensorId, string cmd){
+    addConfFileCommand(sensorId, cmd, ",H");
+}
+
+void ConfigFileHandler::remove_script_high_temp(int sensorId, int cmdId){
+
+}
+
+void ConfigFileHandler::add_script_low_temp(int sensorId, string cmd){
+    addConfFileCommand(sensorId, cmd, ",L");
+}
+
+void ConfigFileHandler::remove_script_low_temp(int sensorId, int cmdId){
+    
+}
+
+void ConfigFileHandler::addConfFileCommand(int sensorId, string cmd, string highLow) {
+    fstream configFile;
+    string file;
+    try
+    {
+        configFile.open(_filename, ios::in | ios::out);
+        if (!configFile.is_open())
+        {
+            throw runtime_error("Could not open the config.conf file!");
+        } else {
+            string line;
+            int sensor = 0;
+            while (getline(configFile, line))
+            {
+                if (line.find("#") == string::npos &&
+                    line.find(",") != string::npos)
+                {
+                    if (sensorId == sensor)
+                    {
+                        line.append(highLow.append(cmd));
+                        cout << line << endl;
+                        file.append(line.append("\n"));
+                        sensor++;
+                        continue;
+                    }
+                    sensor++;
+                }
+                cout << line << endl;
+                file.append(line.append("\n"));
+            }
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    configFile.clear();
+    configFile.seekg(0);
+    configFile << file;
+    configFile.close();
+}
+
+void ConfigFileHandler::edit_temp_threshold(int sensorId, int newThreshold, string highLow) {
+    fstream configFile;
+    string file;
+    try
+    {
+        configFile.open(_filename, ios::in | ios::out);
+        if (!configFile.is_open())
+        {
+            throw runtime_error("Could not open the config.conf file!");
+        } else {
+            string line;
+            int sensor = 0;
+            while (getline(configFile, line))
+            {
+                int commaPos = line.find(",");
+                if (line.find("#") == string::npos &&
+                    commaPos != string::npos)
+                {
+                    if (sensorId == sensor)
+                    {
+                        commaPos++;
+                        if (highLow == "H")
+                        {
+                            int secondCommaPos = line.find(",", commaPos);
+                            line.replace(commaPos, secondCommaPos-commaPos,to_string(newThreshold));
+                        } else {    // Assume Low threshold
+                            commaPos = line.find(",", commaPos)+1;
+                            int secondCommaPos = line.find(",", commaPos);
+                            line.replace(commaPos, secondCommaPos-commaPos,to_string(newThreshold));
+                        }
+                        cout << line << endl;
+                        file.append(line.append("\n"));
+                        sensor++;
+                        continue;
+                    }
+                    sensor++;
+                }
+                cout << line << endl;
+                file.append(line.append("\n"));
+            }
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    configFile.clear();
+    configFile.seekg(0);
+    configFile << file;
+    configFile.close();
+}
+
+void ConfigFileHandler::prettyPrintConfig(shared_ptr<System> mySystem){
     cout << "\nSummary from the config.conf file!" << endl;
 
     int sensorId = 0;
-    for (shared_ptr<Sensor> sensor : result->getSensorsConfig())
+    for (shared_ptr<Sensor> sensor : mySystem->getSensorsConfig())
     {
         cout << "Sensor" << sensorId << ": " << sensor->getSensor() << 
         " \n\tHighTempThresh: " << sensor->getHighTempThresh();
@@ -136,6 +258,5 @@ shared_ptr<System> ConfigFileHandler::parse_config_file () {
         sensorId++;
     }
     
-    cout << "loggingPeriod: " << result->getLoggingPeriod() << endl << endl;
-    return result;
+    cout << "loggingPeriod: " << mySystem->getLoggingPeriod() << endl << endl;
 }
