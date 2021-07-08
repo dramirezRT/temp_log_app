@@ -14,7 +14,7 @@ using namespace std;
 class ConfigFileHandler {
 
     public:
-        ConfigFileHandler() : _filename("./config.conf") {};
+        ConfigFileHandler() : _filename("/etc/temp-monitor/config.conf") {};
         shared_ptr<System> parse_config_file ();
         void edit_threshold_high(int sensorId, int newThreshold);
         void edit_threshold_low(int sensorId, int newThreshold);
