@@ -9,7 +9,7 @@ int main (int argc, char* argv[]) {
     ConfigFileHandler cfh;
 
     TempMonitor tm;
-    tm.mySystem = cfh.parse_config_file();
+    TempMonitor::mySystem = cfh.parse_config_file();
     tm.monitor();
     return 0;
 }
