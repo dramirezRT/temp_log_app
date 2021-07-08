@@ -81,7 +81,7 @@ int main (int argc, char* argv[]) {
         }
         int sensorId = stoi(argv[2]);
         int newPeriod = stoi(argv[3]);
-        cfh.edit_logging_period(sensorId, newPeriod);
+        cfh.edit_logging_period(newPeriod);
         SYSTEMD_MISC::daemon_reload();
         SYSTEMD_MISC::restart_service();
     }else if (arg == "--add-script-on-high-temp")
