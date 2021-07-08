@@ -74,13 +74,12 @@ int main (int argc, char* argv[]) {
         SYSTEMD_MISC::restart_service();
     }  else if (arg == "--edit-logging-period")
     {
-        if (argc != 4)
+        if (argc != 3)
         {
             showUsage(argv[0]);
             return 1;
         }
-        int sensorId = stoi(argv[2]);
-        int newPeriod = stoi(argv[3]);
+        int newPeriod = stoi(argv[2]);
         cfh.edit_logging_period(newPeriod);
         SYSTEMD_MISC::daemon_reload();
         SYSTEMD_MISC::restart_service();
