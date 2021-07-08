@@ -29,11 +29,7 @@ class Sensor {
             _highTempThreshCmds(highTempThreshCmds),
             _lowTempThreshCmds(lowTempThreshCmds) {};
         string getSensor();
-        //void addHighTempThreshCmd(string cmd);
-        //void removeHighTempThreshCmd(int index);
         vector<string> getHighTempThreshCmd();
-        // void addLowTempThreshCmd(string cmd);
-        // void removeLowTempThreshCmd(int index);
         vector<string> getLowTempThreshCmd();
         void setHighTempThresh(int threshold);
         int getHighTempThresh();
@@ -48,12 +44,18 @@ class System {
         System (vector<shared_ptr<Sensor>> sensorsConfig, int loggingPeriod = 5) :
             _sensorsConfig(sensorsConfig),
             _loggingPeriod(loggingPeriod) {};
-        // void setLoggingPeriod(int seconds);
         int getLoggingPeriod();
         vector<shared_ptr<Sensor>> getSensorsConfig();
-        // void updateHighTempThresh(int sensorId, int highTempThresh);
-        // void updateLowTempThresh(int sensorId, int lowTempThresh);
 };
+
+class TempMonitor
+{
+    static shared_ptr<System> mySystem;
+    public:
+        void executeCmd(string cmd);
+        void monitor();
+};
+
 
 
 #endif

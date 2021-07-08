@@ -8,8 +8,6 @@
 
 using namespace std;
 
-static shared_ptr<System> mySystem;
-
 string Sensor::getSensor() { return _sensor; }
 vector<string> Sensor::getHighTempThreshCmd(){ return _highTempThreshCmds; }
 vector<string> Sensor::getLowTempThreshCmd(){ return _lowTempThreshCmds; }
@@ -17,20 +15,16 @@ int Sensor::getHighTempThresh(){ return _highTempThresh; }
 int Sensor::getLowTempThresh(){ return _lowTempThresh; }
 void Sensor::setHighTempThresh(int threshold){ _highTempThresh = threshold; }
 void Sensor::setLowTempThresh(int threshold) { _lowTempThresh = threshold; }
-// void Sensor::addHighTempThreshCmd(string cmd){ _highTempThreshCmds.push_back(cmd); }
-// void Sensor::removeHighTempThreshCmd(int index){}
-// void Sensor::addLowTempThreshCmd(string cmd){ _lowTempThreshCmds.push_back(cmd); }
-// void Sensor::removeLowTempThreshCmd(int index){}
 
 int System::getLoggingPeriod(){ return _loggingPeriod; }
 vector<shared_ptr<Sensor>> System::getSensorsConfig(){return _sensorsConfig; }
 
 
-void executeCmd(string cmd){
+void TempMonitor::executeCmd(string cmd){
     system(cmd.c_str());
 }
 
-void monitor() {
+void TempMonitor::monitor() {
     while (true)
     {
         for(shared_ptr<Sensor> sensor: mySystem->getSensorsConfig()){
@@ -75,11 +69,3 @@ void monitor() {
     }
     
 }
-
-int main (int argc, char* argv[]) {
-    ConfigFileHandler cfh;
-    mySystem = cfh.parse_config_file();
-    monitor();
-    return 0;
-}
-
