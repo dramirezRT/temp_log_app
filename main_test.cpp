@@ -12,6 +12,7 @@ int main (int argc, char* argv[]) {
     // cfh.edit_threshold_high(3, 69);
     // cfh.edit_threshold_low(0, 5);
     // cfh.edit_threshold_low(2, 5);
+    // cfh.edit_logging_period(10);
     // SYSTEMD_MISC::daemon_reload();
     // SYSTEMD_MISC::restart_service();
 

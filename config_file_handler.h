@@ -18,6 +18,7 @@ class ConfigFileHandler {
         shared_ptr<System> parse_config_file ();
         void edit_threshold_high(int sensorId, int newThreshold);
         void edit_threshold_low(int sensorId, int newThreshold);
+        void edit_logging_period(int newPeriod);
         void add_script_high_temp(int sensorId, string cmd);
         void remove_script_high_temp(int sensorId, int cmdId);
         void add_script_low_temp(int sensorId, string cmd);

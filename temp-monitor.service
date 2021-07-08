@@ -5,7 +5,7 @@ Documentation="https://github.com/dramirezRT/temp_log_app.git"
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/temp-monitor
+ExecStart=/etc/temp-monitor/temp-monitor
 WorkingDirectory=/etc/temp-monitor/
 Restart=always
 

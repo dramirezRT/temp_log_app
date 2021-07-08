@@ -125,6 +125,70 @@ void ConfigFileHandler::edit_threshold_low(int sensorId, int newThreshold){
     edit_temp_threshold(sensorId, newThreshold, "L");
 }
 
+void ConfigFileHandler::edit_logging_period(int newPeriod){
+    fstream configFile;
+    string file;
+    try
+    {
+        configFile.open(_filename, ios::in | ios::out);
+        if (!configFile.is_open())
+        {
+            throw runtime_error("Could not open the config.conf file!");
+        } else {
+            string line;
+            int sensor = 0;
+            while (getline(configFile, line))
+            {
+                int eraseFrom = line.find("#");
+                if (eraseFrom == 0) // It's a comment
+                {
+                    cout << line << endl;
+                    file.append(line.append("\n"));
+                    continue;
+                }
+                if (eraseFrom != string::npos)
+                {
+                    line.erase(eraseFrom);
+                }
+                // Try to remove from the first tab key found
+                eraseFrom = line.find("\t");
+                if (eraseFrom != string::npos)
+                {
+                    line.erase(eraseFrom);
+                }
+                if (line.size() > 0)
+                {
+                    if (line.find(",") != string::npos) // It's a sensor config line
+                    {
+                        cout << line << endl;
+                        file.append(line.append("\n"));
+                        continue;
+                    }
+                    // Try to remove from the first space found
+                    eraseFrom = line.find(" ");
+                    if (eraseFrom != string::npos)
+                    {
+                        line.erase(eraseFrom);
+                    }
+                    int equalsSign = line.find("=");
+                    equalsSign++;
+                    line.replace(equalsSign, line.size()-equalsSign, to_string(newPeriod));
+                }
+                cout << line << endl;
+                file.append(line.append("\n"));
+            }
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    configFile.close();
+    configFile.open(_filename, ios::out | ios::trunc);
+    configFile << file;
+    configFile.close();
+}
+
 void ConfigFileHandler::add_script_high_temp(int sensorId, string cmd){
     addConfFileCommand(sensorId, cmd, ",H");
 }
