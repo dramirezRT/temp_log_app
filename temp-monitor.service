@@ -1,5 +1,5 @@
 [Unit]
-Description=Temperature monitoring program and measure automation on temperature extremes
+Description=Temperature monitoring program and provide automation on temperature extremes
 After=network.target
 Documentation="https://github.com/dramirezRT/temp_log_app.git"
 

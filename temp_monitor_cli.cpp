@@ -15,7 +15,8 @@ void showUsage(string programName){
     "\t-h, --help\t\t\t\tDisplays usage information\n" <<
     "\t-w, --display-welcome\t\t\tDisplays a cool welcome logo :)\n" <<
     "\t-d, --display-config\t\t\tShows current config\n" <<
-    "\t-s, --start-monitor\t\t\tStart monitoring the CPU temperature\n" <<
+    "\t-s, --start-monitor\t\t\tStart monitoring the temperatures\n" <<
+    "\t-r, --restart-monitor\t\t\tRestart the monitoring service of temperatures\n" <<
     "\t--edit-temp-limit-high\t\t\tEdit what is considered a high temperature value for a sensor [SENSOR_ID] [TEMP]\n" <<
     "\t--edit-temp-limit-low\t\t\tEdit what is considered a low temperature value [SENSOR_ID] [TEMP]\n" <<
     "\t--edit-logging-period\t\t\tEdit the logging period for the sensors [PERIOD]\n" <<
@@ -48,6 +49,10 @@ int main (int argc, char* argv[]) {
     } else if (arg == "-s" || arg == "--start-monitor")
     {
         SYSTEMD_MISC::start_service();
+    } else if (arg == "-r" || arg == "--restart-monitor")
+    {
+        SYSTEMD_MISC::daemon_reload();
+        SYSTEMD_MISC::restart_service();
     } else if (arg == "--edit-temp-limit-high")
     {
         if (argc != 4)
