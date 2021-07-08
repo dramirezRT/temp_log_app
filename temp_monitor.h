@@ -50,8 +50,8 @@ class System {
 
 class TempMonitor
 {
-    static shared_ptr<System> mySystem;
     public:
+        static shared_ptr<System> mySystem;
         void executeCmd(string cmd);
         void monitor();
 };

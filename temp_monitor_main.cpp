@@ -4,12 +4,12 @@
 
 using namespace std;
 
-static shared_ptr<System> mySystem;
 
 int main (int argc, char* argv[]) {
     ConfigFileHandler cfh;
-    mySystem = cfh.parse_config_file();
+
     TempMonitor tm;
+    tm.mySystem = cfh.parse_config_file();
     tm.monitor();
     return 0;
 }
