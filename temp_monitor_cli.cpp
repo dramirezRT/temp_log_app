@@ -41,7 +41,7 @@ int main (int argc, char* argv[]) {
     } else if (arg == "-w" || arg == "--display-welcome")
     {
         cout << rimacWelcome << endl;
-        cout << "\t\tFrom CR with love <3" << endl << endl;
+        cout << "\tFrom CR with love <3" << endl << endl;
     } else if (arg == "-d" || arg == "--display-config")
     {
         shared_ptr<System> mySystem = cfh.parse_config_file();
