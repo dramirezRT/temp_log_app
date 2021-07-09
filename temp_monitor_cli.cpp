@@ -50,10 +50,16 @@ int main (int argc, char* argv[]) {
     } else if (arg == "-s" || arg == "--start-monitor")
     {
         SYSTEMD_MISC::start_service();
+    } else if (arg == "-o" || arg == "--stop-monitor")
+    {
+        SYSTEMD_MISC::stop_service();
     } else if (arg == "-r" || arg == "--restart-monitor")
     {
         SYSTEMD_MISC::daemon_reload();
         SYSTEMD_MISC::restart_service();
+    } else if (arg == "-e" || arg == "--enable-monitor")
+    {
+        SYSTEMD_MISC::enable_service();
     } else if (arg == "--edit-temp-limit-high")
     {
         if (argc != 4)
