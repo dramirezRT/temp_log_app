@@ -16,7 +16,9 @@ void showUsage(string programName){
     "\t-w, --display-welcome\t\t\tDisplays a cool welcome logo :)\n" <<
     "\t-d, --display-config\t\t\tShows current config\n" <<
     "\t-s, --start-monitor\t\t\tStart monitoring the temperatures\n" <<
+    "\t-o, --stop-monitor\t\t\tStop monitoring the temperatures\n" <<
     "\t-r, --restart-monitor\t\t\tRestart the monitoring service of temperatures\n" <<
+    "\t-e, --enable-monitor\t\t\tEnable the autostart of the monitoring service\n" <<
     "\t--edit-temp-limit-high\t\t\tEdit what is considered a high temperature value for a sensor [SENSOR_ID] [TEMP]\n" <<
     "\t--edit-temp-limit-low\t\t\tEdit what is considered a low temperature value [SENSOR_ID] [TEMP]\n" <<
     "\t--edit-logging-period\t\t\tEdit the logging period for the sensors [PERIOD]\n" <<
