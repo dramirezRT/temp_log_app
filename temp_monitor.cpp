@@ -41,20 +41,22 @@ void TempMonitor::monitor() {
                     stringstream ss;
                     ss << fixed << setprecision(2) << stof(temp)/1000;
                     float currentTemp = stof(ss.str());
+                    auto now = std::chrono::system_clock::now();
+                    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
                     if (currentTemp > sensor->getHighTempThresh())
                     {
-                        cerr << "High temperature alert for sensor: " << sensor->getSensor() << " is: " << currentTemp << "°C" << endl;
+                        cerr << ctime(&now_time) << "\tHigh temperature alert for sensor: " << sensor->getSensor() << " is: " << currentTemp << "°C" << endl;
                         for(string cmd : sensor->getHighTempThreshCmd()){
                             executeCmd(cmd);
                         }
                     } else if (currentTemp < sensor->getLowTempThresh())
                     {
-                        cerr << "Low temperature alert for sensor: " << sensor->getSensor() << " is: " << currentTemp << "°C" << endl;
+                        cerr << ctime(&now_time) << "\tLow temperature alert for sensor: " << sensor->getSensor() << " is: " << currentTemp << "°C" << endl;
                         for(string cmd : sensor->getLowTempThreshCmd()){
                             executeCmd(cmd);
                         }
                     }
-                    cout << "Current temperature for sensor: " << sensor->getSensor() << " is: " << currentTemp << "°C" << endl;
+                    cout << ctime(&now_time) << "Current temperature for sensor: " << sensor->getSensor() << " is: " << currentTemp << "°C" << endl;
                     
                 }
                 sensorFile.close();

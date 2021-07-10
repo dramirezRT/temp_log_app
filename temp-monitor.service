@@ -8,6 +8,8 @@ Type=simple
 ExecStart=/usr/bin/temp-monitor
 WorkingDirectory=/etc/temp-monitor/
 Restart=always
+StandardOutput=file:/etc/temp-monitor/temps.log
+StandardError=file:/etc/temp-monitor/extremes.log
 
 
 [Install]
