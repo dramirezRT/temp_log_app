@@ -51,6 +51,7 @@ int main (int argc, char* argv[]) {
         SYSTEMD_MISC::status_service();
     } else if (arg == "-s" || arg == "--start-monitor")
     {
+        SYSTEMD_MISC::daemon_reload();
         SYSTEMD_MISC::start_service();
     } else if (arg == "-o" || arg == "--stop-monitor")
     {

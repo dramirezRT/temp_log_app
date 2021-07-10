@@ -56,7 +56,7 @@ void TempMonitor::monitor() {
                             executeCmd(cmd);
                         }
                     }
-                    cout << ctime(&now_time) << "Current temperature for sensor: " << sensor->getSensor() << " is: " << currentTemp << "°C" << endl;
+                    cout << ctime(&now_time) << "\tCurrent temperature for sensor: " << sensor->getSensor() << " is: " << currentTemp << "°C" << endl;
                     
                 }
                 sensorFile.close();
