@@ -15,6 +15,7 @@ class ConfigFileHandler {
 
     public:
         ConfigFileHandler() : _filename("/etc/temp-monitor/config.conf") {};
+        ConfigFileHandler(string path) : _filename(path) {};
         shared_ptr<System> parse_config_file ();
         void edit_threshold_high(int sensorId, int newThreshold);
         void edit_threshold_low(int sensorId, int newThreshold);
@@ -27,6 +28,7 @@ class ConfigFileHandler {
     private:
         string _filename;
         void addConfFileCommand(int sensorId, string cmd, string highLow);
+        void removeConfFileCommand(int sensorId, int cmdId, string highLow);
         void edit_temp_threshold(int sensorId, int newThreshold, string highLow);
 
 };

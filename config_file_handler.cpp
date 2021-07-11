@@ -142,7 +142,7 @@ void ConfigFileHandler::edit_logging_period(int newPeriod){
                 int eraseFrom = line.find("#");
                 if (eraseFrom == 0) // It's a comment
                 {
-                    cout << line << endl;
+                    // cout << line << endl;
                     file.append(line.append("\n"));
                     continue;
                 }
@@ -160,7 +160,7 @@ void ConfigFileHandler::edit_logging_period(int newPeriod){
                 {
                     if (line.find(",") != string::npos) // It's a sensor config line
                     {
-                        cout << line << endl;
+                        // cout << line << endl;
                         file.append(line.append("\n"));
                         continue;
                     }
@@ -174,7 +174,7 @@ void ConfigFileHandler::edit_logging_period(int newPeriod){
                     equalsSign++;
                     line.replace(equalsSign, line.size()-equalsSign, to_string(newPeriod));
                 }
-                cout << line << endl;
+                // cout << line << endl;
                 file.append(line.append("\n"));
             }
         }
@@ -194,7 +194,7 @@ void ConfigFileHandler::add_script_high_temp(int sensorId, string cmd){
 }
 
 void ConfigFileHandler::remove_script_high_temp(int sensorId, int cmdId){
-
+    removeConfFileCommand(sensorId, cmdId, ",H");
 }
 
 void ConfigFileHandler::add_script_low_temp(int sensorId, string cmd){
@@ -202,7 +202,7 @@ void ConfigFileHandler::add_script_low_temp(int sensorId, string cmd){
 }
 
 void ConfigFileHandler::remove_script_low_temp(int sensorId, int cmdId){
-    
+    removeConfFileCommand(sensorId, cmdId, ",L");
 }
 
 void ConfigFileHandler::addConfFileCommand(int sensorId, string cmd, string highLow) {
@@ -225,14 +225,11 @@ void ConfigFileHandler::addConfFileCommand(int sensorId, string cmd, string high
                     if (sensorId == sensor)
                     {
                         line.append(highLow.append(cmd));
-                        cout << line << endl;
-                        file.append(line.append("\n"));
-                        sensor++;
-                        continue;
+                        // cout << line << endl;
                     }
                     sensor++;
                 }
-                cout << line << endl;
+                // cout << line << endl;
                 file.append(line.append("\n"));
             }
         }
@@ -243,6 +240,64 @@ void ConfigFileHandler::addConfFileCommand(int sensorId, string cmd, string high
     }
     configFile.clear();
     configFile.seekg(0);
+    configFile << file;
+    configFile.close();
+}
+
+void ConfigFileHandler::removeConfFileCommand(int sensorId, int cmdId, string highLow) {
+    fstream configFile;
+    string file;
+    try
+    {
+        configFile.open(_filename, ios::in | ios::out);
+        if (!configFile.is_open())
+        {
+            throw runtime_error("Could not open the config.conf file!");
+        } else {
+            string line;
+            int sensor = 0;
+            while (getline(configFile, line))
+            {
+                if (line.find("#") == string::npos &&
+                    line.find(",") != string::npos)
+                {
+                    if (sensorId == sensor)
+                    {
+                        int leftIndex = line.find(highLow);
+                        int rightIndex = 0;
+                        int count = 0;
+                        while (leftIndex != string::npos)
+                        {
+                            rightIndex = line.find(",", leftIndex+1);
+                            if (rightIndex == string::npos) // Last item in line
+                            {
+                                rightIndex = line.size()-1;
+                            }
+                            
+                            if (count == cmdId)
+                            {
+                                // Erase from leftIndex to rightIndex
+                                line.erase(leftIndex, rightIndex - leftIndex);
+                                // cout << "found -> " << leftIndex << " : " << rightIndex << endl;
+                                break;
+                            }
+                            count++;
+                            leftIndex = line.find(highLow, rightIndex);
+                        }
+                    }
+                    sensor++;
+                }
+                // cout << line << endl;
+                file.append(line.append("\n"));
+            }
+        }
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    configFile.close();
+    configFile.open(_filename, ios::out | ios::trunc);
     configFile << file;
     configFile.close();
 }
@@ -277,14 +332,10 @@ void ConfigFileHandler::edit_temp_threshold(int sensorId, int newThreshold, stri
                             int secondCommaPos = line.find(",", commaPos);
                             line.replace(commaPos, secondCommaPos-commaPos,to_string(newThreshold));
                         }
-                        cout << line << endl;
-                        file.append(line.append("\n"));
-                        sensor++;
-                        continue;
                     }
                     sensor++;
                 }
-                cout << line << endl;
+                // cout << line << endl;
                 file.append(line.append("\n"));
             }
         }
@@ -293,8 +344,8 @@ void ConfigFileHandler::edit_temp_threshold(int sensorId, int newThreshold, stri
     {
         std::cerr << e.what() << '\n';
     }
-    configFile.clear();
-    configFile.seekg(0);
+    configFile.close();
+    configFile.open(_filename, ios::out | ios::trunc);
     configFile << file;
     configFile.close();
 }
