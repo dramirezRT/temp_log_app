@@ -1,11 +1,6 @@
 #ifndef TEMP_MONITOR
 #define TEMP_MONITOR
 
-// Defined at compile time with option -DIMX_VERSION=colibri-imx6 | -DIMX_VERSION=colibri-imx8 | -DIMX_VERSION=RPi4 (for testing)
-#ifndef SYS_TYPE
-#define SYS_TYPE "colibri-imx6" // Default to IMX6
-#endif
-
 #include <iostream>
 #include <vector>
 #include <string>
@@ -28,13 +23,41 @@ class Sensor {
             _sensor(sensor), _highTempThresh(highTempThresh), _lowTempThresh(lowTempThresh),
             _highTempThreshCmds(highTempThreshCmds),
             _lowTempThreshCmds(lowTempThreshCmds) {};
-        string getSensor();
-        vector<string> getHighTempThreshCmd();
-        vector<string> getLowTempThreshCmd();
-        void setHighTempThresh(int threshold);
-        int getHighTempThresh();
-        void setLowTempThresh(int threshold);
-        int getLowTempThresh();
+        /**
+         * \brief Getter for the _sensor variable.
+         * \return _sensor - Sensor Linux path.
+         */
+        string get_sensor();
+        /**
+         * \brief Getter for the _highTempThreshCmds variable.
+         * \return _highTempThreshCmds - Vector list of commands to run when the upper threshold is exceeded.
+         */
+        vector<string> get_high_temp_thresh_cmd();
+        /**
+         * \brief Getter for the _lowTempThreshCmds variable.
+         * \return _lowTempThreshCmds - Vector list of commands to run when the lower threshold is surpassed.
+         */
+        vector<string> get_low_temp_thresh_cmd();
+        /**
+         * \brief Setter for the _highTempThresh variable.
+         * \param threshold - Upper temperature threshold for the sensor.
+         */
+        void set_high_temp_thresh(int threshold);
+        /**
+         * \brief Getter for the _highTempThresh variable.
+         * \return _highTempThresh - Upper temperature threshold for the sensor.
+         */
+        int get_high_temp_thresh();
+        /**
+         * \brief Setter for the _lowTempThresh variable.
+         * \param threshold - Lower temperature threshold for the sensor.
+         */
+        void set_low_temp_thresh(int threshold);
+        /**
+         * \brief Getter for the _lowTempThresh variable.
+         * \return _lowTempThresh - Lower temperature threshold for the sensor.
+         */
+        int get_low_temp_thresh();
 };
 
 class System {
@@ -44,15 +67,23 @@ class System {
         System (vector<shared_ptr<Sensor>> sensorsConfig, int loggingPeriod = 5) :
             _sensorsConfig(sensorsConfig),
             _loggingPeriod(loggingPeriod) {};
-        int getLoggingPeriod();
-        vector<shared_ptr<Sensor>> getSensorsConfig();
+        /**
+         * \brief Getter for the _loggingPeriod variable.
+         * \return _loggingPeriod - Logging Period for the application.
+         */
+        int get_logging_period();
+        /**
+         * \brief Getter for the _sensorsConfig variable.
+         * \return _sensorsConfig - Vector list of shared pointers to the System's sensors.
+         */
+        vector<shared_ptr<Sensor>> get_sensors_config();
 };
 
 class TempMonitor
 {
     public:
         shared_ptr<System> mySystem;
-        void executeCmd(string cmd);
+        void execute_cmd(string cmd);
         void monitor();
 };
 

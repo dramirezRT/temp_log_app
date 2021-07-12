@@ -190,22 +190,22 @@ void ConfigFileHandler::edit_logging_period(int newPeriod){
 }
 
 void ConfigFileHandler::add_script_high_temp(int sensorId, string cmd){
-    addConfFileCommand(sensorId, cmd, ",H");
+    add_conf_file_command(sensorId, cmd, ",H");
 }
 
 void ConfigFileHandler::remove_script_high_temp(int sensorId, int cmdId){
-    removeConfFileCommand(sensorId, cmdId, ",H");
+    remove_conf_file_command(sensorId, cmdId, ",H");
 }
 
 void ConfigFileHandler::add_script_low_temp(int sensorId, string cmd){
-    addConfFileCommand(sensorId, cmd, ",L");
+    add_conf_file_command(sensorId, cmd, ",L");
 }
 
 void ConfigFileHandler::remove_script_low_temp(int sensorId, int cmdId){
-    removeConfFileCommand(sensorId, cmdId, ",L");
+    remove_conf_file_command(sensorId, cmdId, ",L");
 }
 
-void ConfigFileHandler::addConfFileCommand(int sensorId, string cmd, string highLow) {
+void ConfigFileHandler::add_conf_file_command(int sensorId, string cmd, string highLow) {
     fstream configFile;
     string file;
     try
@@ -244,7 +244,7 @@ void ConfigFileHandler::addConfFileCommand(int sensorId, string cmd, string high
     configFile.close();
 }
 
-void ConfigFileHandler::removeConfFileCommand(int sensorId, int cmdId, string highLow) {
+void ConfigFileHandler::remove_conf_file_command(int sensorId, int cmdId, string highLow) {
     fstream configFile;
     string file;
     try
@@ -350,22 +350,22 @@ void ConfigFileHandler::edit_temp_threshold(int sensorId, int newThreshold, stri
     configFile.close();
 }
 
-void ConfigFileHandler::prettyPrintConfig(shared_ptr<System> mySystem){
+void ConfigFileHandler::pretty_print_config(shared_ptr<System> mySystem){
     cout << "\nSummary from the config.conf file!" << endl;
 
     int sensorId = 0;
-    for (shared_ptr<Sensor> sensor : mySystem->getSensorsConfig())
+    for (shared_ptr<Sensor> sensor : mySystem->get_sensors_config())
     {
-        cout << "Sensor" << sensorId << ": " << sensor->getSensor() << 
-        " \n\tHighTempThresh: " << sensor->getHighTempThresh();
+        cout << "Sensor" << sensorId << ": " << sensor->get_sensor() << 
+        " \n\tHighTempThresh: " << sensor->get_high_temp_thresh();
         int cmdId = 0;
-        for(string cmd : sensor->getHighTempThreshCmd()){
+        for(string cmd : sensor->get_high_temp_thresh_cmd()){
             cout << "\n\t\t" << cmdId << ")\t" << cmd;
             cmdId++;
         }
-        cout << "\n\tLowTempThresh: " << sensor->getLowTempThresh();
+        cout << "\n\tLowTempThresh: " << sensor->get_low_temp_thresh();
         cmdId = 0;
-        for(string cmd : sensor->getLowTempThreshCmd()){
+        for(string cmd : sensor->get_low_temp_thresh_cmd()){
             cout << "\n\t\t" << cmdId << ")\t" << cmd;
             cmdId++;
         }
@@ -373,5 +373,5 @@ void ConfigFileHandler::prettyPrintConfig(shared_ptr<System> mySystem){
         sensorId++;
     }
     
-    cout << "loggingPeriod: " << mySystem->getLoggingPeriod() << endl << endl;
+    cout << "loggingPeriod: " << mySystem->get_logging_period() << endl << endl;
 }

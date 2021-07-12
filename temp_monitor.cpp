@@ -8,31 +8,31 @@
 
 using namespace std;
 
-string Sensor::getSensor() { return _sensor; }
-vector<string> Sensor::getHighTempThreshCmd(){ return _highTempThreshCmds; }
-vector<string> Sensor::getLowTempThreshCmd(){ return _lowTempThreshCmds; }
-int Sensor::getHighTempThresh(){ return _highTempThresh; }
-int Sensor::getLowTempThresh(){ return _lowTempThresh; }
-void Sensor::setHighTempThresh(int threshold){ _highTempThresh = threshold; }
-void Sensor::setLowTempThresh(int threshold) { _lowTempThresh = threshold; }
+string Sensor::get_sensor() { return _sensor; }
+vector<string> Sensor::get_high_temp_thresh_cmd(){ return _highTempThreshCmds; }
+vector<string> Sensor::get_low_temp_thresh_cmd(){ return _lowTempThreshCmds; }
+int Sensor::get_high_temp_thresh(){ return _highTempThresh; }
+int Sensor::get_low_temp_thresh(){ return _lowTempThresh; }
+void Sensor::set_high_temp_thresh(int threshold){ _highTempThresh = threshold; }
+void Sensor::set_low_temp_thresh(int threshold) { _lowTempThresh = threshold; }
 
-int System::getLoggingPeriod(){ return _loggingPeriod; }
-vector<shared_ptr<Sensor>> System::getSensorsConfig(){ return _sensorsConfig; }
+int System::get_logging_period(){ return _loggingPeriod; }
+vector<shared_ptr<Sensor>> System::get_sensors_config(){ return _sensorsConfig; }
 
 
-void TempMonitor::executeCmd(string cmd){
+void TempMonitor::execute_cmd(string cmd){
     system(cmd.c_str());
 }
 
 void TempMonitor::monitor() {
     while (true)
     {
-        for(shared_ptr<Sensor> sensor: mySystem->getSensorsConfig()){
+        for(shared_ptr<Sensor> sensor: mySystem->get_sensors_config()){
             ifstream sensorFile;
             string temp;
             try
             {
-                sensorFile.open(sensor->getSensor(), ios::in);
+                sensorFile.open(sensor->get_sensor(), ios::in);
                 if (!sensorFile.is_open())
                 {
                     throw runtime_error("Could not open the sensor file!");
@@ -43,20 +43,20 @@ void TempMonitor::monitor() {
                     float currentTemp = stof(ss.str());
                     auto now = std::chrono::system_clock::now();
                     std::time_t now_time = std::chrono::system_clock::to_time_t(now);
-                    if (currentTemp > sensor->getHighTempThresh())
+                    if (currentTemp > sensor->get_high_temp_thresh())
                     {
-                        cerr << ctime(&now_time) << "\tHigh temperature alert for sensor: " << sensor->getSensor() << " is: " << currentTemp << "°C" << endl;
-                        for(string cmd : sensor->getHighTempThreshCmd()){
-                            executeCmd(cmd);
+                        cerr << ctime(&now_time) << "\tHigh temperature alert for sensor: " << sensor->get_sensor() << " is: " << currentTemp << "°C" << endl;
+                        for(string cmd : sensor->get_high_temp_thresh_cmd()){
+                            execute_cmd(cmd);
                         }
-                    } else if (currentTemp < sensor->getLowTempThresh())
+                    } else if (currentTemp < sensor->get_low_temp_thresh())
                     {
-                        cerr << ctime(&now_time) << "\tLow temperature alert for sensor: " << sensor->getSensor() << " is: " << currentTemp << "°C" << endl;
-                        for(string cmd : sensor->getLowTempThreshCmd()){
-                            executeCmd(cmd);
+                        cerr << ctime(&now_time) << "\tLow temperature alert for sensor: " << sensor->get_sensor() << " is: " << currentTemp << "°C" << endl;
+                        for(string cmd : sensor->get_low_temp_thresh_cmd()){
+                            execute_cmd(cmd);
                         }
                     }
-                    cout << ctime(&now_time) << "\tCurrent temperature for sensor: " << sensor->getSensor() << " is: " << currentTemp << "°C" << endl;
+                    cout << ctime(&now_time) << "\tCurrent temperature for sensor: " << sensor->get_sensor() << " is: " << currentTemp << "°C" << endl;
                     
                 }
                 sensorFile.close();
@@ -67,7 +67,7 @@ void TempMonitor::monitor() {
                 return;
             }
         }
-        this_thread::sleep_for(chrono::seconds(mySystem->getLoggingPeriod()));
+        this_thread::sleep_for(chrono::seconds(mySystem->get_logging_period()));
     }
     
 }

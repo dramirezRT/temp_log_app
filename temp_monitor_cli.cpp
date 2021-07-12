@@ -14,7 +14,7 @@ void showUsage(string programName){
     "Options:\n" <<
     "\t-h, --help\t\t\t\tDisplays usage information\n" <<
     "\t-w, --display-welcome\t\t\tDisplays a cool welcome logo :)\n" <<
-    "\t-d, --display-config\t\t\tShows current config\n" <<
+    "\t-d, --display-config\t\t\tShows current config. Use this command to get the Sensor IDs and Command Ids\n" <<
     "\t-s, --start-monitor\t\t\tStart monitoring the temperatures\n" <<
     "\t-o, --stop-monitor\t\t\tStop monitoring the temperatures\n" <<
     "\t-r, --restart-monitor\t\t\tRestart the monitoring service of temperatures\n" <<
@@ -23,9 +23,9 @@ void showUsage(string programName){
     "\t--edit-temp-limit-low\t\t\tEdit what is considered a low temperature value [SENSOR_ID] [TEMP]\n" <<
     "\t--edit-logging-period\t\t\tEdit the logging period for the sensors [PERIOD]\n" <<
     "\t--add-script-on-high-temp\t\tAdd a script to run when the temperature is exceeded [SENSOR_ID] [COMMAND]\n" <<
-    "\t--remove-script-on-high-temp\t\tRemove a script from running when the temperature is exceeded\n" <<
+    "\t--remove-script-on-high-temp\t\tRemove a script from running when the temperature is exceeded [SENSOR_ID] [CMD_ID]\n" <<
     "\t--add-script-on-low-temp\t\tAdd a script to run when the temperature is below the threshold [SENSOR_ID] [COMMAND]\n" <<
-    "\t--remove-script-on-low-temp\t\tRemove a script from running when the temperature is below the threshold" << endl;
+    "\t--remove-script-on-low-temp\t\tRemove a script from running when the temperature is below the threshold [SENSOR_ID] [CMD_ID]" << endl;
 }
 
 int main (int argc, char* argv[]) {
@@ -47,7 +47,7 @@ int main (int argc, char* argv[]) {
     } else if (arg == "-d" || arg == "--display-config")
     {
         shared_ptr<System> mySystem = cfh.parse_config_file();
-        cfh.prettyPrintConfig(mySystem);
+        cfh.pretty_print_config(mySystem);
         SYSTEMD_MISC::status_service();
     } else if (arg == "-s" || arg == "--start-monitor")
     {
